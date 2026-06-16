@@ -23,6 +23,47 @@ Example:
 
 ---
 
+## CRITICAL: Copyable Format Requirement
+
+**Output document MUST be easily copyable and selectable.**
+
+**Format specifications**:
+- Use **TXT format** (plain text), NOT Markdown
+- NO Markdown formatting (###, **, etc.)
+- NO special characters except basic punctuation
+- Each block separated by clear ASCII lines (===)
+- Each instruction block clearly labeled "COPY-PASTE #X"
+- Instructions for how to select/copy/paste included
+
+**Why TXT not Markdown**:
+- Markdown readers make text unselectableor hard to copy
+- Users need to select entire block and copy to BookLM
+- Plain text = maximum compatibility, zero formatting issues
+
+**Structure example**:
+```
+================================================================================
+COPY-PASTE #1 — BLOCK TITLE
+================================================================================
+
+[Instruction content here — plain text only]
+
+Instructions to copy:
+[All instructions in plain text, no formatting]
+
+================================================================================
+FIN COPY-PASTE #1
+================================================================================
+```
+
+**Testing**: Validate that user can:
+1. Click into document
+2. Select entire block (from COPY-PASTE header to FIN COPY-PASTE)
+3. Ctrl+C → paste into BookLM custom instructions field
+4. No formatting breaks, no special characters cause issues
+
+---
+
 ## Document Structure
 
 Final document contains:

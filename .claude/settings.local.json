@@ -10,7 +10,8 @@
       "Bash(git commit -m 'Add reference to Obsidian memory location *)",
       "Bash(pdftotext \"/home/yoann/Documents/NoteBookLM-Orchestrator/Cours/6S556TEWB0022_Cours_DroitDecentralisation.pdf\" -)",
       "Bash(git commit -m 'Major improvements: Language detection + Format-specific quantification *)",
-      "Bash(git commit -m 'Complete: 10 podcast instruction blocks generated *)"
+      "Bash(git commit -m 'Complete: 10 podcast instruction blocks generated *)",
+      "Bash(git commit -m 'Add copyable TXT version + update output requirements *)"
     ]
   }
 }
