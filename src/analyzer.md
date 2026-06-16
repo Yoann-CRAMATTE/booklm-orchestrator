@@ -11,6 +11,18 @@ Claude reads the course completely and extracts:
 
 ---
 
+## CRITICAL: Language Requirement
+
+**Analysis must be conducted in user's language IF possible.**
+
+- If course is French & user is French → Analyze in French
+- If course is English & user is English → Analyze in English
+- **Course language ≠ user language?** → Translate during analysis, keep original terms
+
+**All analysis output (structure, concepts, dependencies) should reference user's language for clarity.**
+
+---
+
 ## Analysis Process
 
 ### Phase 1: Document Structure Extraction

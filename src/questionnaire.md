@@ -2,9 +2,46 @@
 
 This file describes the interactive questionnaire Claude should execute when skill is launched.
 
+## CRITICAL: Language Detection First
+
+**BEFORE ANY QUESTIONS:**
+
+Claude must detect user's native/working language:
+
+1. **Analyze first interaction**:
+   - What language did user use to invoke skill? (e.g., `/booklm-orchestrator`)
+   - What language are they typing in?
+   - French? English? Russian? Chinese? Spanish? German? Italian? Other?
+
+2. **Store language choice**:
+   ```
+   user_language = [detected from interaction]
+   If unclear → Ask: "Quelle langue préfères-tu? / What language do you prefer?"
+   ```
+
+3. **ALL subsequent interactions in user's language**:
+   - Questions → User's language
+   - Explanations → User's language
+   - Output document → User's language
+   - Concept names → Keep technical terms, explain in user's language
+
+---
+
 ## Flow: Questions to Ask User
 
-**Welcome message:**
+**Welcome message (IN USER'S LANGUAGE):**
+
+**Example French:**
+```
+Bienvenue dans BookLM-Orchestrator!
+
+Je vais vous aider à transformer votre cours en contenu pédagogique structuré 
+prêt pour BookLM (ou tout autre générateur basé sur IA).
+
+Commençons par rassembler les informations sur votre cours et vos objectifs.
+```
+
+**Example English:**
 ```
 Welcome to BookLM-Orchestrator!
 
@@ -13,6 +50,8 @@ ready for BookLM (or any LLM-based content generator).
 
 Let's start by gathering some information about your course and goals.
 ```
+
+**[Repeat for other languages as needed]**
 
 ---
 
@@ -43,7 +82,23 @@ Once received, Claude should:
 
 ## Question 2: Desired Output Format
 
-**Ask:**
+**Ask (IN USER'S LANGUAGE):**
+
+**French example:**
+```
+Quel format de sortie souhaitez-vous?
+
+1. Podcast (conversationnel, épisodes chronométrés)
+2. Slides (visuel, format présentation)
+3. Guide d'étude (Q&R, explications détaillées)
+4. Flashcards (mémoire, paires Q&R)
+5. Vidéo (script + descriptions visuelles)
+6. Mix (plusieurs formats à la fois)
+
+Choisissez 1-6 (ou plusieurs pour Mix: ex. "1, 2, 3")
+```
+
+**English example:**
 ```
 What output format do you want?
 
@@ -59,84 +114,164 @@ Choose 1-6 (or multiple for Mix: e.g., "1, 2, 3")
 
 **Processing:**
 - Store selected format(s)
-- If podcast selected, ask Question 3
-- If other format, ask modified Question 3 (about size, not duration)
-- Proceed based on format
+- **Go directly to Question 3** (FORMAT-SPECIFIC QUANTIFICATION)
+- Proceed based on format choice
 
 ---
 
-## Question 3: Format-Specific Details
+## Question 3: Format-Specific Quantification
+
+**CRITICAL**: Ask for EXACT number, not ranges. Adapt language to user.
 
 ### If Podcast:
-```
-What's your target podcast duration per episode?
 
-A. Short (10-15 minutes) — snackable content
-B. Medium (25-35 minutes) — single commute/workout
-C. Long (40-60 minutes) — deep dive
-D. Very Long (60+ minutes) — expert level
+**Ask (IN USER'S LANGUAGE):**
 
-Choose A, B, C, or D
+French:
 ```
+Combien de minutes par épisode de podcast?
+(Exemple: 30, 45, 60, 90 minutes?)
+
+Ton nombre exact:
+```
+
+English:
+```
+How many minutes per podcast episode?
+(Example: 30, 45, 60, 90 minutes?)
+
+Your exact number:
+```
+
+**Processing**: User provides number (e.g., "60") → Store: podcast_duration = 60 min
+
+---
 
 ### If Slides:
-```
-How many slides do you want total?
 
-A. Concise (10-20 slides) — quick overview
-B. Moderate (20-40 slides) — standard presentation
-C. Detailed (40-60 slides) — comprehensive
-D. Very detailed (60+ slides) — thorough coverage
+**Ask (IN USER'S LANGUAGE):**
 
-Choose A, B, C, or D (or estimate based on course length)
+French:
 ```
+Combien de slides au total?
+(Exemple: 15, 25, 50 slides?)
+
+Ton nombre exact:
+```
+
+English:
+```
+How many slides total?
+(Example: 15, 25, 50 slides?)
+
+Your exact number:
+```
+
+**Processing**: User provides number (e.g., "30") → Store: slides_total = 30
+
+---
 
 ### If Study Guide:
-```
-How detailed should the study guide be?
 
-A. Concise (5-10 pages) — key points only
-B. Moderate (10-20 pages) — balanced coverage
-C. Detailed (20-40 pages) — comprehensive
-D. Very detailed (40+ pages) — exhaustive
+**Ask (IN USER'S LANGUAGE):**
 
-Choose A, B, C, or D
+French:
 ```
+Combien de pages au total?
+(Exemple: 10, 20, 40 pages?)
+
+Ton nombre exact:
+```
+
+English:
+```
+How many pages total?
+(Example: 10, 20, 40 pages?)
+
+Your exact number:
+```
+
+**Processing**: User provides number (e.g., "25") → Store: guide_pages = 25
+
+---
 
 ### If Flashcards:
-```
-How many flashcards do you want?
 
-A. Concise (20-40 cards) — key terms only
-B. Moderate (40-80 cards) — solid coverage
-C. Comprehensive (80-150 cards) — all important points
-D. Exhaustive (150+ cards) — every detail
+**Ask (IN USER'S LANGUAGE):**
 
-Choose A, B, C, or D
+French:
 ```
+Combien de flashcards au total?
+(Exemple: 50, 100, 150 cartes?)
+
+Ton nombre exact:
+```
+
+English:
+```
+How many flashcards total?
+(Example: 50, 100, 150 cards?)
+
+Your exact number:
+```
+
+**Processing**: User provides number (e.g., "80") → Store: flashcards_total = 80
+
+---
 
 ### If Video:
-```
-Total video duration target?
 
-A. Short (10-15 min total) — key concepts only
-B. Moderate (30-60 min total) — balanced
-C. Detailed (60+ min total) — comprehensive
+**Ask (IN USER'S LANGUAGE):**
 
-Choose A, B, or C
+French:
+```
+Combien de minutes de vidéo au total?
+(Exemple: 15, 30, 60 minutes?)
+
+Ton nombre exact:
 ```
 
-### If Mix:
+English:
 ```
-For your mixed format output, specify duration/size for each:
-- Podcasts: duration preference (Short/Medium/Long)?
+How many minutes of video total?
+(Example: 15, 30, 60 minutes?)
+
+Your exact number:
+```
+
+**Processing**: User provides number (e.g., "45") → Store: video_duration = 45 min
+
+---
+
+### If Mix (multiple formats):
+
+**Ask (IN USER'S LANGUAGE):**
+
+French:
+```
+Pour chaque format choisi, donne ton nombre exact:
+- Podcasts: combien de minutes par épisode?
+- Slides: combien de slides?
+- Guides: combien de pages?
+- Flashcards: combien de cartes?
+- Vidéos: combien de minutes total?
+
+(Réponds juste pour les formats sélectionnés)
+```
+
+English:
+```
+For each selected format, give your exact number:
+- Podcasts: how many minutes per episode?
 - Slides: how many slides?
-- Study Guides: how detailed?
+- Guides: how many pages?
 - Flashcards: how many cards?
-- Videos: total duration?
+- Videos: how many minutes total?
 
-(You can answer just the formats you selected)
+(Answer only for selected formats)
 ```
+
+**Processing**: Store each value separately for multi-format generation
 
 ---
 

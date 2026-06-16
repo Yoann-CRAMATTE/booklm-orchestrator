@@ -6,15 +6,29 @@ For each segment, generates format-specific instruction blocks ready to copy-pas
 
 ---
 
+## CRITICAL: Language Requirement
+
+**All instruction blocks MUST be generated in user's language.**
+
+- If user spoke French → Blocks in French
+- If user spoke English → Blocks in English
+- If user spoke Russian, Chinese, Spanish, etc. → Blocks in that language
+
+Preserve technical/legal terms but explain context in user's language.
+
+---
+
 ## Generation Process
 
 ### Input Data Needed
 
 From questionnaire:
+- **user_language** (detected automatically) ← CRITICAL
 - Selected format(s) (Podcast, Slides, Guide, Flashcards, Video)
 - Target audience
 - Conversational style
 - Any special notes
+- **Format-specific quantification** (exact numbers: minutes, slides, pages, cards)
 
 From analyzer:
 - Complete concept information with definitions and examples
@@ -23,7 +37,7 @@ From analyzer:
 
 From segmenter:
 - List of all segments with concepts per segment
-- Segment duration/size estimates
+- Segment duration/size estimates (adjusted per quantification)
 
 ---
 

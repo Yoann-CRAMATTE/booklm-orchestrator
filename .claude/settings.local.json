@@ -5,7 +5,11 @@
       "Bash(mkdir -p /home/yoann/Documents/NoteBookLM-Orchestrator/.claude)",
       "Bash(git add *)",
       "Bash(git commit -m 'Initial commit: BookLM-Orchestrator skill structure and specification *)",
-      "Bash(git commit -m 'Phase 1 implementation: Complete execution logic for all modules *)"
+      "Bash(git commit -m 'Phase 1 implementation: Complete execution logic for all modules *)",
+      "Bash(mkdir -p \"/home/yoann/Documents/Mémoire AI/BookLM-Orchestrator\")",
+      "Bash(git commit -m 'Add reference to Obsidian memory location *)",
+      "Bash(pdftotext \"/home/yoann/Documents/NoteBookLM-Orchestrator/Cours/6S556TEWB0022_Cours_DroitDecentralisation.pdf\" -)",
+      "Bash(git commit -m 'Major improvements: Language detection + Format-specific quantification *)"
     ]
   }
 }

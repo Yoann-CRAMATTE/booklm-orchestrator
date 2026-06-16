@@ -6,6 +6,23 @@ Output format: DOCX or TXT (user preference from questionnaire)
 
 ---
 
+## CRITICAL: Language Requirement
+
+**Entire output document MUST be in user's language.**
+
+- **All section headers** → User's language
+- **All instructions** → User's language
+- **All explanations** → User's language
+- **All metadata** → User's language
+- Technical terms: Keep original + explain in user's language
+
+Example:
+- If user is French: Document titles, instructions, usage guide all in French
+- If user is English: All in English
+- If user is Russian/Chinese/Spanish: All in that language
+
+---
+
 ## Document Structure
 
 Final document contains:
