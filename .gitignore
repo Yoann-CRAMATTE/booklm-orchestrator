@@ -39,3 +39,4 @@ Thumbs.db
 .local/
 Cours/
 examples/test_course_*.txt
+examples/output_podcast_*.txt
