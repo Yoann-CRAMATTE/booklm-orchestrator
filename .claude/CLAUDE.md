@@ -1,5 +1,24 @@
 # BookLM-Orchestrator Development Context
 
+## ⚠️ IMPORTANT: Load Project Memory First
+
+**Before starting work on this project, load the Obsidian memory**:
+
+```
+/home/yoann/Documents/Mémoire AI/BookLM-Orchestrator/ProjectStatus.md
+```
+
+This memory contains:
+- Current phase and status
+- Completed vs in-progress work
+- Known issues and TODOs
+- Next steps
+- Session history
+
+**This prevents losing context between sessions.**
+
+---
+
 ## Project Overview
 
 **BookLM-Orchestrator** is a Claude Code skill that analyzes complete courses and intelligently prepares them for BookLM (or other LLM-based content generators). It segments content based on user objectives and generates optimized copy-paste instructions for BookLM.
