@@ -40,3 +40,4 @@ Thumbs.db
 Cours/
 examples/test_course_*.txt
 examples/output_podcast_*.txt
+examples/output_podcast_*.md
