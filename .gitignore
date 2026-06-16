@@ -37,3 +37,5 @@ Thumbs.db
 # Project specific
 .claude/settings.json
 .local/
+Cours/
+examples/test_course_*.txt
