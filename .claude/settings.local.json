@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git init *)",
+      "Bash(mkdir -p /home/yoann/Documents/NoteBookLM-Orchestrator/.claude)",
+      "Bash(git add *)",
+      "Bash(git commit -m 'Initial commit: BookLM-Orchestrator skill structure and specification *)"
+    ]
+  }
+}
