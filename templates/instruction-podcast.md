@@ -37,6 +37,10 @@
 
 ## COPY-PASTE SECTION FOR BOOKLM
 
+**IMPORTANT**: The text below follows strict audio synthesis rules (see "Audio Synthesis Constraints" above). BookLM will convert this to speech — every abbreviation spelled out, every number written as words, zero markdown formatting. This ensures clean, professional audio output.
+
+---
+
 Focus on {chapters}. Cover these concepts in order:
 
 1. **{concept_1}**: {what_to_explain}
@@ -104,33 +108,43 @@ Include these examples:
 
 ## COPY-PASTE SECTION FOR BOOKLM
 
-Focus on chapters 1-2 covering French administrative structure. Cover these concepts in this order:
+Focus on chapters one through two. These cover French administrative structure.
 
-1. **Decentralization & Its History**: Explain what decentralization means and how it evolved in France from centralization toward distributed authority.
+Cover these concepts in this order:
 
-2. **Three Levels of Collectivities**: Describe communes (local), departments (mid-level), and regions (large areas). Give specific powers for each.
+One. Decentralization and Its History. Explain what decentralization means. Show how it evolved in France. Describe the movement from centralization toward distributed authority.
 
-3. **Subsidiarity Principle**: Explain that governance should happen at the closest possible level to citizens while still being effective.
+Two. Three Levels of Collectivities. Describe communes at the local level. Describe departments at the mid-level. Describe regions for large areas. Give specific powers for each level.
 
-Make sure to explain:
-- How deconcentration differs from decentralization (very common confusion)
-- Specific examples: which level handles education, roads, social services
-- Financial system: how money flows between levels and how regions fund themselves
+Three. Subsidiarity Principle. Explain that governance should happen at the closest possible level to citizens. It must still be effective. This is the core principle.
 
-Address these confusions:
-- Deconcentration ≠ Decentralization
-- Decentralization ≠ Independence
+Make sure to explain these points clearly:
+
+First, how deconcentration differs from decentralization. This is a very common confusion. Be explicit about the difference.
+
+Second, specific examples. Which level handles education? Which handles roads? Which handles social services?
+
+Third, the financial system. How does money flow between levels? How do regions fund themselves?
+
+Address these common confusions:
+
+Deconcentration is not the same as decentralization. They mean very different things.
+
+Decentralization is not the same as independence. The levels still work together.
 
 Include these real-world examples:
-- How a local school district works across commune/department/region
-- Waste management coordination between governance levels
-- Regional development fund allocation
 
-**Style**: Natural, conversational, with practical examples drawn from French administration.
+How a local school district works across the commune, department, and region levels.
 
-**Target Duration**: 35 minutes
+How waste management coordination happens between governance levels.
 
-**Audience**: Master's-level students studying public administration, preparing for careers in local/regional government
+How regional development funds get allocated.
+
+Style: Natural, conversational tone. Use practical examples drawn from French administration.
+
+Target duration: thirty five minutes.
+
+Audience: Master's level students studying public administration. They are preparing for careers in local or regional government.
 
 ---
 ```
@@ -148,11 +162,36 @@ Include these real-world examples:
 - ✅ Explain jargon inline
 - ✅ Use transitions ("Now that we've covered X...")
 
-### Audio Optimization
-- Avoid: "e.g." → Use "for example"
-- Avoid: "12/31/2026" → Use "December 31, 2026"
-- Avoid: "$50K" → Use "fifty thousand dollars"
-- Avoid: Lists without connectors → Use "First... Second... Third..."
+### Audio Optimization (CRITICAL FOR BOOKLM AUDIO QUALITY)
+
+**⚠️ AUDIO SYNTHESIS CONSTRAINTS — FOLLOW STRICTLY**
+
+These rules prevent BookLM's text-to-speech from generating artifacts, mispronunciations, or audio noise:
+
+**Rule 1: Spell out ALL abbreviations**
+- ❌ ONU, UNESCO, PDG, etc.
+- ✅ Organisation des Nations Unies, Organisation des Nations Unies pour l'Éducation...
+- Why: TTS cannot pronounce acronyms naturally; spells each letter → unnatural
+
+**Rule 2: Write complex numbers, dates, and technical terms as words**
+- ❌ 12/31/2026, €2.5M, Article 42.3
+- ✅ December 31, 2026; two point five million euros; Article forty-two, point three
+- Why: Numbers and special formats cause TTS to stumble or read numbers digit-by-digit
+
+**Rule 3: ZERO Markdown formatting in final text**
+- ❌ No asterisks (*), hyphens (—), hashes (#), brackets [text], backticks `code`
+- ✅ Plain text only, use parentheses (like this) for emphasis
+- Why: Markdown characters cause audio artifacts and noise in BookLM TTS
+
+**Rule 4: Keep sentences SHORT — Maximum 20 words each**
+- ❌ "The principle of subsidiarity, which states that governance should happen at the lowest appropriate level while still being effective, is fundamental."
+- ✅ "Governance should happen at the lowest appropriate level. This is called subsidiarity. It's fundamental to modern administration."
+- Why: Long sentences = rushed speech or phrasing errors in TTS
+
+**Legacy Tips**:
+- Use "for example" not "e.g."
+- Use "and so on" not "etc."
+- Use connectors: "First... Second... Third..." not bullet lists
 
 ### Examples
 - Minimum 2-3 per podcast
