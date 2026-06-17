@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Council Report — BookLM-Orchestrator Phase 1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background: #f5f5f7;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header .meta {
+            font-size: 0.95em;
+            opacity: 0.95;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .verdict-section {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid #667eea;
+        }
+
+        .verdict-section h2 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .verdict-section h3 {
+            color: #333;
+            font-size: 1.2em;
+            margin-top: 20px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 8px;
+        }
+
+        .convergence {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .disagreement {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .blind-spot {
+            background: #fce7f3;
+            border-left: 4px solid #ec4899;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .recommendation {
+            background: #ede9fe;
+            border-left: 4px solid #8b5cf6;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-size: 1.05em;
+        }
+
+        .action-box {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .council-response {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .response-header {
+            background: #f9fafb;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            user-select: none;
+        }
+
+        .response-header:hover {
+            background: #f3f4f6;
+        }
+
+        .response-content {
+            padding: 20px;
+            display: none;
+            background: white;
+        }
+
+        .response-content.active {
+            display: block;
+        }
+
+        .toggle-icon {
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+
+        .response-content.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .councilor-name {
+            color: #667eea;
+            font-weight: 700;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f9fafb;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-success {
+            color: #22c55e;
+            font-weight: 600;
+        }
+
+        .status-warning {
+            color: #f59e0b;
+            font-weight: 600;
+        }
+
+        .status-critical {
+            color: #ef4444;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #666;
+            font-size: 0.9em;
+            border-top: 1px solid #e5e7eb;
+            margin-top: 50px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .response-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 LLM Council Report</h1>
+            <p>BookLM-Orchestrator Phase 1 Robustness Review</p>
+            <div class="meta">
+                <span>📅 17 Juin 2026</span>
+                <span>👥 5 Conseillers indépendants</span>
+                <span>⚖️ Analyse multi-perspectives</span>
+            </div>
+        </header>
+
+        <!-- VERDICT SECTION -->
+        <div class="verdict-section">
+            <h2>✅ VERDICT FINAL</h2>
+
+            <h3>En trois mots</h3>
+            <p style="font-size: 1.1em; font-weight: 600; color: #667eea; margin: 15px 0;">
+                <strong>STOP Phase 2. START Phase 1 Validation.</strong>
+            </p>
+
+            <p style="margin: 20px 0;">
+                Phase 1 MVP est <strong>architecturally sound</strong> mais <strong>empirically unproven</strong>.
+                Vous avez bâti de la plomberie solide autour d'assumptions que vous n'avez pas validées.
+            </p>
+
+            <p style="margin: 20px 0;">
+                <strong>Le conseil recommande:</strong> Valider les 3 assumptions critiques avant d'investir dans Phase 2.
+            </p>
+        </div>
+
+        <!-- AGREEMENTS -->
+        <div class="verdict-section">
+            <h2>🤝 OÙ LE CONSEIL EST D'ACCORD (5/5)</h2>
+
+            <div class="convergence">
+                <h3 style="border: none; margin-top: 0;">Point 1: VALIDATION AVEC BOOKLM EST BLOQUANTE</h3>
+                <p><strong>Consensus unanime:</strong> Vous n'avez testé aucun bloc avec BookLM réel.</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Vos TTS optimisations sont hypothétiques</li>
+                    <li>Votre structure instruction suppose des choses sur BookLM parsing</li>
+                    <li>Risque: Incompatibilité découverte en Phase 2</li>
+                </ul>
+                <p style="margin-top: 10px;"><strong>Impact:</strong> Non-négociable. Tester bloc #1 avant toute décision Phase 2.</p>
+            </div>
+
+            <div class="convergence">
+                <h3 style="border: none; margin-top: 0;">Point 2: TESTER SUR VRAIS COURS, PAS L'EXEMPLE</h3>
+                <p><strong>Consensus:</strong> "Droit de la Décentralisation" est parfait — structure claire, density modérée.</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Analyzer: Cours sans structure? Mix langues? Texte brut?</li>
+                    <li>Segmenter: 500+ concepts? Dépendances circulaires?</li>
+                    <li>Generator: Tous templates produisent du texte valide?</li>
+                </ul>
+                <p style="margin-top: 10px;"><strong>Impact:</strong> Valider sur 3-4 courses différents (densités, structures, domaines).</p>
+            </div>
+
+            <div class="convergence">
+                <h3 style="border: none; margin-top: 0;">Point 3: CHAIN END-TO-END NON-TESTÉE</h3>
+                <p><strong>Consensus:</strong> Validation modules isolément, jamais la chaîne complète.</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Analyzer → Segmenter couplage: Dépendances respectées?</li>
+                    <li>Segmenter → Generator couplage: Segments valides?</li>
+                    <li>Real data variation: Analyzer crash ou graceful?</li>
+                </ul>
+                <p style="margin-top: 10px;"><strong>Impact:</strong> Exécuter end-to-end sur 2-3 courses réels maintenant.</p>
+            </div>
+        </div>
+
+        <!-- DISAGREEMENTS -->
+        <div class="verdict-section">
+            <h2>⚔️ OÙ LE CONSEIL S'OPPOSE</h2>
+
+            <div class="disagreement">
+                <h3 style="border: none; margin-top: 0;">Désaccord 1: Validation Speed</h3>
+                <p><strong>Team Conservative</strong> (Contradicteur, Extérieur):</p>
+                <blockquote style="margin-left: 20px; margin: 10px 0 10px 20px; border-left: 3px solid #f59e0b; padding-left: 15px; color: #666;">
+                    "Validez TOUS les cas-limites avant Phase 2. Ne touchez pas Phase 2 tant que 80%+ confiance."
+                </blockquote>
+
+                <p style="margin-top: 15px;"><strong>Team Agile</strong> (Expansionniste, Exécutant):</p>
+                <blockquote style="margin-left: 20px; margin: 10px 0 10px 20px; border-left: 3px solid #3b82f6; padding-left: 15px; color: #666;">
+                    "Déployez maintenant avec 60% confiance. Learn from real users, iterate fast."
+                </blockquote>
+
+                <p style="margin-top: 15px;"><strong>Resolution</strong> (Penseur par Premiers Principes):</p>
+                <p>"Test specifics, not everything. Valide les 3 assumptions critiques. Pas besoin de 100%."</p>
+            </div>
+
+            <div class="disagreement">
+                <h3 style="border: none; margin-top: 0;">Désaccord 2: Focus Phase 2</h3>
+                <p><strong>Conservative Track:</strong> Affinez Phase 1 avant Phase 2. Proof first, expand second.</p>
+                <p style="margin-top: 15px;"><strong>Opportunistic Track:</strong> Test autres plateformes maintenant (Claude API, Perplexity, PlayHT). Apprenez en parallèle.</p>
+                <p style="margin-top: 15px;"><strong>Resolution:</strong> Test chaîne Phase 1 en 1 semaine. PUIS décidez Phase 2 scope sur feedback réel.</p>
+            </div>
+        </div>
+
+        <!-- BLIND SPOTS -->
+        <div class="verdict-section">
+            <h2>🔍 ANGLES MORTS DÉTECTÉS (Ce que personne n'a mentionné)</h2>
+
+            <div class="blind-spot">
+                <h3 style="border: none; margin-top: 0;">Angle mort 1: Performance à l'échelle</h3>
+                <p>Comment l'analyzer performe sur <strong>500+ concepts</strong>?</p>
+                <p style="margin-top: 10px; font-size: 0.95em; color: #666;">Contexte Claude limited. Vous splitez par chapitre. Mais consolidation finale risque de perdre nuances.</p>
+                <p style="margin-top: 10px;"><strong>Action:</strong> Testez sur cours 200+ pages. Mesurez si concept extraction se dégrade.</p>
+            </div>
+
+            <div class="blind-spot">
+                <h3 style="border: none; margin-top: 0;">Angle mort 2: Skill installation reality</h3>
+                <p>Le skill fonctionne-t-il réellement en vrai environnement Claude Code?</p>
+                <p style="margin-top: 10px; font-size: 0.95em; color: #666;">Authentication flows, file handling, output delivery — tout fonctionne ou juste localement?</p>
+                <p style="margin-top: 10px;"><strong>Action:</strong> Release simulation — copier dans registry, utiliser end-to-end.</p>
+            </div>
+
+            <div class="blind-spot">
+                <h3 style="border: none; margin-top: 0;">Angle mort 3: User mental model</h3>
+                <p>Le workflow questionnaire → analyzer → segmenter → generator → output est-il intuitif?</p>
+                <p style="margin-top: 10px; font-size: 0.95em; color: #666;">Les questions claires? Les outputs attendus? Ou juste "sensible" sur papier?</p>
+                <p style="margin-top: 10px;"><strong>Action:</strong> 15-min user test avec quelqu'un dehors équipe.</p>
+            </div>
+        </div>
+
+        <!-- CRITICAL RECOMMENDATIONS -->
+        <div class="verdict-section">
+            <h2>🎯 LES 3 ASSUMPTIONS À VALIDER</h2>
+
+            <div class="recommendation">
+                <p><strong>Assumption 1 (Format):</strong></p>
+                <p style="margin: 10px 0; color: #666;">Mes blocs instruction optimisés TTS générent du contenu BookLM de qualité comparable.</p>
+            </div>
+
+            <div class="recommendation">
+                <p><strong>Assumption 2 (Segmentation):</strong></p>
+                <p style="margin: 10px 0; color: #666;">Ma segmentation respecte dépendances mieux que simple equal-length splitting.</p>
+            </div>
+
+            <div class="recommendation">
+                <p><strong>Assumption 3 (Analysis):</strong></p>
+                <p style="margin: 10px 0; color: #666;">Mon analyzer extrait concepts/structure avec 70%+ accuracy vs expert review.</p>
+            </div>
+        </div>
+
+        <!-- FIRST ACTION -->
+        <div class="verdict-section">
+            <h2>📋 LA PREMIÈRE CHOSE À FAIRE (Lundi matin)</h2>
+
+            <div class="action-box">
+                <p style="font-size: 1.2em; margin-bottom: 15px;">Test bloc #1 avec BookLM réel</p>
+                <ol style="margin-left: 20px;">
+                    <li>Sélectionne bloc #1 audio-optimized</li>
+                    <li>Va sur NotebookLM.google.com</li>
+                    <li>Crée notebook avec cours complet</li>
+                    <li>Format Podcast</li>
+                    <li>Copie bloc #1 dans Custom Instructions</li>
+                    <li>Generate</li>
+                </ol>
+                <p style="margin-top: 15px; font-size: 0.95em; color: #666;"><strong>Durée:</strong> 30 minutes</p>
+            </div>
+
+            <h3 style="margin-top: 30px;">Les 3 outcomes possibles:</h3>
+
+            <table>
+                <tr>
+                    <th>Outcome</th>
+                    <th>Signe</th>
+                    <th>Prochaine étape</th>
+                </tr>
+                <tr>
+                    <td><span class="status-success">✅ SUCCESS</span></td>
+                    <td>Contenu généré correspond à l'instruction. Audio OK.</td>
+                    <td>Test blocs 2-3. Puis course second.</td>
+                </tr>
+                <tr>
+                    <td><span class="status-warning">⚠️ PARTIAL</span></td>
+                    <td>Oui mais X est mauvais (audio rapide, pas transitions)</td>
+                    <td>Note le problème. Mitiger Phase 1. Réitérer.</td>
+                </tr>
+                <tr>
+                    <td><span class="status-critical">❌ FAILURE</span></td>
+                    <td>BookLM ignore instruction ou génère charabia</td>
+                    <td>Debug. Est-ce format? Longueur? Langage? Rewrite, réessaye.</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- CURRENT STATE VS TARGET -->
+        <div class="verdict-section">
+            <h2>📊 État Actuel vs État Cible</h2>
+
+            <table>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Actuellement</th>
+                    <th>Devrait être</th>
+                </tr>
+                <tr>
+                    <td>Code/Architecture</td>
+                    <td><span class="status-success">✅ Solide</span></td>
+                    <td>✅ Pas de change</td>
+                </tr>
+                <tr>
+                    <td>Documentation</td>
+                    <td><span class="status-success">✅ Complète</span></td>
+                    <td>✅ Pas de change</td>
+                </tr>
+                <tr>
+                    <td>Unit Testing</td>
+                    <td><span class="status-warning">⚠️ Pas de tests</span></td>
+                    <td>➜ Keep as-is (Markdown skill)</td>
+                </tr>
+                <tr>
+                    <td>Integration Testing</td>
+                    <td><span class="status-critical">❌ Zéro</span></td>
+                    <td><strong>➜ URGENT: BookLM test</strong></td>
+                </tr>
+                <tr>
+                    <td>Edge Cases</td>
+                    <td><span class="status-critical">❌ Zéro</span></td>
+                    <td><strong>➜ URGENT: Multi-course validation</strong></td>
+                </tr>
+                <tr>
+                    <td>GitHub repo</td>
+                    <td><span class="status-success">✅ Prêt</span></td>
+                    <td>✅ Pas de change</td>
+                </tr>
+                <tr>
+                    <td>Phase 2 readiness</td>
+                    <td><span class="status-critical">❌ Non</span></td>
+                    <td>➜ Contingent on Monday test</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- COUNCIL MEMBERS -->
+        <div class="verdict-section">
+            <h2>👥 Les 5 Conseillers</h2>
+
+            <div class="council-response">
+                <div class="response-header" onclick="toggleResponse(this)">
+                    <span><span class="councilor-name">1. Le Contradicteur</span> — Cherche les défauts fatals</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="response-content">
+                    <p><strong>Trois défauts fatals identifiés:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Validation zéro:</strong> Aucun test TTS réel. Concepts vraiment isolables?</li>
+                        <li><strong>Analyzer ne mesure rien:</strong> 38 concepts — comment? Dépendances respectées ou juste ordre?</li>
+                        <li><strong>"Copyable" ≠ "complet":</strong> Si cours 3x plus dense/mince, templates cassent?</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Recommendation:</strong> Testez bloc #1 TTS réel. Mesurez dépendances. Variez cours test.</p>
+                </div>
+            </div>
+
+            <div class="council-response">
+                <div class="response-header" onclick="toggleResponse(this)">
+                    <span><span class="councilor-name">2. Penseur par Premiers Principes</span> — Remet les postulats en question</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="response-content">
+                    <p><strong>Questions de première utilité:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Segmentation réellement meilleure que naive splitting?</li>
+                        <li>Analyzer extrait vraiment les bons concepts? (70%+ vs expert?)</li>
+                        <li>Templates assez dynamiques ou trop statiques?</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Recommendation:</strong> Validation audit sur 3 courses réels. Template hypothesis testing. Segmentation baseline comparison.</p>
+                </div>
+            </div>
+
+            <div class="council-response">
+                <div class="response-header" onclick="toggleResponse(this)">
+                    <span><span class="councilor-name">3. Expansionniste</span> — Cherche les opportunités cachées</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="response-content">
+                    <p><strong>4 opportunités identifiées:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Reverse-engineer BookLM:</strong> Test depuis succès BookLM, pas vers</li>
+                        <li><strong>Platform multiplication:</strong> Claude API, Perplexity, PlayHT en parallèle</li>
+                        <li><strong>User co-creation:</strong> Capturez utilisateurs maintenant pour itération</li>
+                        <li><strong>Format arbitrage:</strong> Quel format > génère le meilleur output?</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Recommendation:</strong> Déployez déjà. Chaque bloc réel > 100 blocs théoriques.</p>
+                </div>
+            </div>
+
+            <div class="council-response">
+                <div class="response-header" onclick="toggleResponse(this)">
+                    <span><span class="councilor-name">4. Extérieur</span> — Détecte la malédiction de la connaissance</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="response-content">
+                    <p><strong>3 questions critiques:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Chain end-to-end réellement testée ou modules isolément?</li>
+                        <li>Format handlers testables sans BookLM?</li>
+                        <li>Edge cases couverts? (zéro structure, dépendances circulaires, code-switching)</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Recommendation:</strong> Test end-to-end sur 3-4 courses. Test avec BookLM réel. Documenter edge cases.</p>
+                </div>
+            </div>
+
+            <div class="council-response">
+                <div class="response-header" onclick="toggleResponse(this)">
+                    <span><span class="councilor-name">5. Exécutant</span> — "Ça marche et comment?"</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="response-content">
+                    <p><strong>Plan pragmatique lundi matin:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>BookLM validation (2-3h):</strong> Test blocs réels</li>
+                        <li><strong>Audit rapide (1-2h):</strong> Analyzer edge cases, segmenter perf, generator validité</li>
+                        <li><strong>Refacto ciblée:</strong> Post-validation seulement</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Recommendation:</strong> Test maintenant. Itère vite. Ne refactorisez pas avant validation BookLM réel.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONCLUSION -->
+        <div class="verdict-section">
+            <h2>🏁 Conclusion</h2>
+
+            <p style="font-size: 1.05em; line-height: 1.8;">
+                <strong>Phase 1 MVP est prêt à <u>valider</u>. Pas prêt à <u>étendre</u>.</strong>
+            </p>
+
+            <p style="margin: 20px 0;">
+                Vous avez construit une architecture solide et bien documentée. Mais l'architecture n'est qu'un début.
+                La vraie question n'est pas "est-ce bien construit?" (oui). C'est "est-ce que ça marche réellement avec BookLM?"
+            </p>
+
+            <p style="margin: 20px 0;">
+                <strong>Lundi matin, vous saurez.</strong>
+            </p>
+        </div>
+
+        <footer>
+            <p>LLM Council Report Generated: 2026-06-17</p>
+            <p>Conseillers: Contradicteur, Penseur par Premiers Principes, Expansionniste, Extérieur, Exécutant</p>
+            <p>Recommendation: VALIDATE before SCALE</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleResponse(header) {
+            const content = header.nextElementSibling;
+            content.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
