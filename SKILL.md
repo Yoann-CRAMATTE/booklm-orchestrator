@@ -1,398 +1,143 @@
 ---
 name: booklm-orchestrator
-title: BookLM-Orchestrator
-version: 0.2.0
-description: Claude Code skill that analyzes complete courses, intelligently segments them, and generates optimized instructions for BookLM (podcasts, slides, study guides, flashcards, videos). Full interactive workflow with language detection, format-specific quantification, and TTS audio optimization.
-author: Yoann CRAMATTE
-organization: Grand Belfort — Pôle Relations Usagers (DEE-GDU)
+description: Analyze complete courses, intelligently segment them, and generate optimized instructions for BookLM (podcasts, slides, guides, flashcards, videos). Use when users want to transform courses into structured educational content.
 license: MIT
-repository: https://github.com/Yoann-CRAMATTE/booklm-orchestrator
-homepage: https://github.com/Yoann-CRAMATTE/booklm-orchestrator
-issues_url: https://github.com/Yoann-CRAMATTE/booklm-orchestrator/issues
-categories:
-  - education
-  - content-generation
-  - course-analysis
-  - booklm
-pricing: free
-keywords:
-  - booklm
-  - education
-  - course-segmentation
-  - podcast-generation
-  - learning-paths
-  - course-analysis
-  - artificial-intelligence
-  - tts-optimization
-languages:
-  - fr
-  - en
-  - ru
-  - zh
-  - es
-status: beta
 ---
 
-## Overview
+# BookLM-Orchestrator
 
-BookLM-Orchestrator analyzes complete courses and intelligently prepares them for BookLM. Interactive questionnaire gathers user requirements. Claude reads the complete course, analyzes structure and concepts, calculates optimal segmentation, and generates format-specific instructions ready to copy-paste into BookLM.
+Transform your course into structured educational content — all ready for BookLM.
 
-**Tagline**: "Transform your course into structured educational content — all ready for BookLM."
+## What This Skill Does
 
-## Primary Command
+BookLM-Orchestrator analyzes complete courses and intelligently prepares them for BookLM generation. The skill:
+
+1. **Analyzes** your course (structure, concepts, dependencies)
+2. **Segments** it optimally (respecting pedagogical flow)
+3. **Generates** format-specific instructions (podcast, slides, guides, flashcards, video)
+4. **Outputs** copy-paste-ready blocks for BookLM
+
+## How to Use
+
+Type `/booklm-orchestrator` and answer the interactive questionnaire:
+
+- **Provide your course**: Upload PDF/DOCX/TXT, paste content, or provide URL
+- **Choose format**: Podcast, slides, study guide, flashcards, video, or mix
+- **Specify target**: Duration (for podcasts) or sizing (for other formats)
+- **Select audience**: Primary school through professional level
+- **Preference**: Conversational style (academic, natural, debate, socratic)
+
+The skill then:
+1. Reads your complete course
+2. Extracts structure, concepts, and dependencies
+3. Calculates optimal segmentation
+4. Generates instruction blocks for each segment
+5. Delivers professional DOCX/TXT output
+
+## Output Example
 
 ```
-/booklm-orchestrator
+# BOOKLM-ORCHESTRATOR OUTPUT
+
+Cours: Droit de la Décentralisation
+
+---
+
+INSTRUCTIONS:
+For each episode below:
+1. Copy the full text of the block
+2. Create a new podcast in BookLM
+3. Paste into "Custom Instructions"
+4. Generate
+
+---
+
+## EPISODE 1: Foundations — What is Decentralization?
+[Instruction block optimized for BookLM TTS]
+
+## EPISODE 2: Constitutional Principles
+[Instruction block optimized for BookLM TTS]
+
+... (all episodes)
 ```
 
-Launches complete interactive workflow:
-1. Questionnaire (course + preferences)
-2. Course analysis
-3. Intelligent segmentation
-4. Instruction generation
-5. Output delivery (DOCX/TXT)
+## Key Features
 
-## Interactive Workflow
+✅ **Language Detection**: Questionnaire adapts to user's language (FR/EN/RU/ZH/ES/etc.)  
+✅ **Format-Specific Quantification**: Exact numbers (minutes, slides, pages, cards)  
+✅ **Pedagogical Segmentation**: Respects learning progression and concept dependencies  
+✅ **TTS Optimization**: Audio rules for clear BookLM speech synthesis  
+✅ **Multi-Format Support**: Podcasts, slides, study guides, flashcards, videos  
+✅ **Copy-Paste Ready**: Instructions directly into BookLM Custom Instructions  
 
-### Step 1: Launch & Questionnaire
+## Supported Formats
 
-User types: `/booklm-orchestrator`
+| Format | Duration/Size | Output |
+|--------|---|---|
+| **Podcast** | 10-15, 25-35, 40-60, 60+ min | Audio instruction blocks |
+| **Slides** | 15, 30, 50, 75 slides | Presentation instructions |
+| **Study Guide** | 7, 15, 30, 60 pages | Q&A instructional blocks |
+| **Flashcards** | 30, 60, 100, 150 cards | Memory instruction blocks |
+| **Video** | 15, 60, 120 min | Script + scene instructions |
 
-Claude asks:
-```
-1. Provide your course:
-   [ ] Upload PDF / DOCX / TXT / MD file
-   [ ] Provide URL link
-   [ ] Paste course text directly
+## Example Use Cases
 
-2. What is your target output format?
-   [ ] Podcast (conversational, timed)
-   [ ] Slides (visual, concise)
-   [ ] Study Guide (Q&A, detailed)
-   [ ] Flashcards (memory-focused)
-   [ ] Video (script + descriptions)
-   [ ] Mix (multiple formats)
-
-3. If podcast: target duration per episode?
-   [ ] Short (10-15 min)
-   [ ] Medium (25-35 min)
-   [ ] Long (40-60 min)
-   [ ] Very Long (60+ min)
-
-4. Target audience / education level?
-   [ ] Primary school (6-11)
-   [ ] Secondary school (12-17)
-   [ ] Undergraduate
-   [ ] Master's / Advanced
-   [ ] Professional
-   [ ] General public
-   [ ] Other (specify)
-
-5. Any specific concepts or chapters to prioritize?
-   [ ] Cover entire course
-   [ ] Specific chapters (list them)
-   [ ] Key themes (describe)
-
-6. Conversational style preference?
-   [ ] Academic (formal, technical)
-   [ ] Natural (friendly, conversational)
-   [ ] Debate (discussion-based)
-   [ ] Socratic (question-led)
-```
-
-### Step 2: Claude Analyzes Complete Course
-
-Claude reads entire course and:
-- Identifies structure (chapters, sections, subsections, pages)
-- Extracts key concepts with definitions
-- Maps concept dependencies (prerequisites, relationships)
-- Evaluates pedagogical density (concepts per page/section)
-- Identifies difficult-to-explain points
-- Notes examples and real-world applications
-- Creates concept hierarchy
-
-**Output**: Complete course analysis (internal, not shown to user)
-
-### Step 3: Intelligent Segmentation
-
-Based on:
-- Course content and structure
-- User format preference
-- Target duration / size constraints
-- Target audience level
-- Concept dependencies and prerequisites
-
-Claude calculates:
-- Optimal number of segments
-- Segment boundaries (chapter or concept level)
-- Prerequisite ordering
-- Duration estimates per segment
-- Pedagogical flow and progression
-
-**Output**: Segmentation plan (internal)
-
-### Step 4: Instruction Generation
-
-For each segment, Claude generates:
-- Format-specific instruction blocks
-- Copy-paste-ready for BookLM
-- Includes:
-  - Content scope (chapters/concepts covered)
-  - Key concepts in order of importance
-  - Points to explain thoroughly
-  - Common misunderstandings to address
-  - Real-world examples
-  - Style and audience specifications
-  - Duration targets (if applicable)
-
-### Step 5: Output Delivery
-
-Claude generates final document (DOCX or TXT):
-- Analysis summary (course overview, density, segments)
-- Segmentation table (all segments listed with metadata)
-- Instruction blocks (one per segment, ready for BookLM)
-- Usage guide (how to use with BookLM, best practices)
-
-**Format**: Professional document, cleanly formatted, downloadable
-
-## How Skill Executes
-
-### 1. Interactive Flow
-- Claude poses structured questionnaire
-- User responds with course (file/URL/text) + preferences
-- Conversational, adaptive to user's needs
-
-### 2. Course Analysis (by Claude)
-- **File Parsing**: Handles PDF, DOCX, TXT, MD, URL
-- **Structure Extraction**: Identifies chapters, sections, hierarchy
-- **Concept Extraction**: Pulls key concepts, definitions, examples
-- **Dependency Mapping**: Identifies prerequisites and relationships
-- **Density Evaluation**: Scores pedagogical density per section
-- **Difficulty Assessment**: Flags complex concepts
-
-See: `src/analyzer.md` for detailed logic
-
-### 3. Segmentation (by Claude)
-- **Format Constraints**: Respects duration/size limits
-- **Pedagogical Constraints**: Keeps concepts intact, respects prerequisites
-- **Audience Optimization**: Adjusts complexity for target level
-- **Boundary Calculation**: Chapter-level or concept-level splits
-- **Flow Validation**: Ensures logical progression
-
-See: `src/segmenter.md` for detailed logic
-
-### 4. Instruction Generation (by Claude)
-- **Format-Specific**: Different templates for podcast, slides, guides, flashcards, video
-- **Copy-Paste Ready**: Text ready to paste into BookLM Custom Instructions
-- **Optimized**: Audio-friendly (for TTS), visual (for slides), testable (for flashcards)
-
-See: `src/generator.md` and `templates/` for detailed templates
-
-### 5. Output Creation (by Claude)
-- **Format**: DOCX or TXT (user preference)
-- **Structure**: Analysis summary → Segmentation table → Instruction blocks → Usage guide
-- **Professional**: Clean formatting, readable, downloadable
-
-See: `src/output.md` for detailed logic
+**Student**: "Transform my 120-page Master's course into 4×35-min podcasts for revision"  
+**Teacher**: "Create multi-format content (podcasts + slides + study guides) from undergraduate course"  
+**Professional**: "Build training material (podcast + slides) from company onboarding docs"
 
 ## Input Requirements
 
-### Course Document
-- **Formats**: PDF, DOCX, TXT, MD, URL
-- **Size**: Up to 100 MB (or multiple files)
-- **Languages**: French, English (extensible)
-- **Content**: Complete course (lectures, textbook chapters, training material, notes)
-
-### User Preferences (via Interactive Questionnaire)
-1. Course source (file/URL/text)
-2. Desired output format
-3. Target duration (for podcasts) or sizing (for other formats)
-4. Target audience level
-5. Specific chapters/concepts to prioritize
-6. Conversational style preference
+- **Course**: PDF, DOCX, TXT, Markdown, or URL (up to 100 MB)
+- **Language**: French, English, Russian, Chinese, Spanish, others supported
+- **Content**: Complete course (lectures, textbooks, training materials, notes)
 
 ## Output Format
 
-### Primary Deliverable: DOCX or TXT Document
+- **Primary**: Professional DOCX or TXT document
+- **Contains**: Analysis summary, segmentation table, instruction blocks, usage guide
+- **Blocks**: Formatted for direct copy-paste into BookLM Custom Instructions
 
-```
-BOOKLM-ORCHESTRATOR OUTPUT
-══════════════════════════
+## Technical Details
 
-📋 ANALYSIS SUMMARY
-- Course title and source
-- Pages/chapters analyzed
-- Total concepts identified
-- Pedagogical density estimate
-- Recommended segments count
+**Architecture**:
+- Questionnaire (interactive Q&A with language detection)
+- Analyzer (course parsing, concept extraction, dependency mapping)
+- Segmenter (optimal segment calculation respecting pedagogy)
+- Generator (format-specific instruction blocks)
+- Output (DOCX/TXT delivery)
 
-🎯 PROPOSED SEGMENTATION
-- Segment 1: [title] | chapters X-Y | duration | key concepts (3-5 listed)
-- Segment 2: [title] | chapters X-Y | duration | key concepts (3-5 listed)
-- ... (all segments listed)
+**Design Principles**:
+- Markdown-first (documentation and execution both in Markdown)
+- Pedagogically sound (respects learning progression)
+- Copy-paste ready (no additional formatting needed)
+- Language-aware (detects and adapts to user language)
+- Format-specific (each output type optimized for its medium)
 
-📝 INSTRUCTION BLOCKS (Copy-Paste Ready for BookLM)
+## Status
 
-## SEGMENT 1: [Title]
-**Duration**: [X minutes / Y pages]
-**Chapters**: [chapters covered]
-**Audience**: [target level]
-**Key Concepts**: [1. concept, 2. concept, ...]
-**Style**: [conversational approach]
+**Phase 1 MVP**: COMPLETE
+- ✅ Core architecture (questionnaire → analyzer → segmenter → generator → output)
+- ✅ Language detection and multilingual support
+- ✅ All 5 formats supported
+- ✅ TTS audio optimization rules
+- ✅ GitHub repository (open source, MIT license)
 
-[BookLM Custom Instructions text - ready to copy-paste]
+**Current Testing**: Phase 1 validation with BookLM (June 2026)
 
----
+**Roadmap**:
+- Phase 2: Advanced segmentation options, enhanced templates
+- Phase 3: BookLM API integration (if available)
+- Phase 4: Public release and community feedback
 
-## SEGMENT 2: [Title]
-...
+## Links
 
-📚 USAGE GUIDE
-- How to use these blocks with BookLM
-- Best practices
-- Tips for each format
-- Troubleshooting
-```
+- **Repository**: https://github.com/Yoann-CRAMATTE/booklm-orchestrator
+- **Issues**: https://github.com/Yoann-CRAMATTE/booklm-orchestrator/issues
+- **Documentation**: See README.md in repository
 
-### Optional Outputs
-- CSV segment inventory (metadata only)
-- Plain text version (if DOCX not preferred)
+## Author
 
-## Configuration (User-Selected)
-
-Questionnaire collects these preferences:
-
-| Setting | Options |
-|---------|---------|
-| **Output Format** | Podcast, Slides, Study Guide, Flashcards, Video, Mix |
-| **Podcast Duration** | 10-15 min, 25-35 min, 40-60 min, 60+ min |
-| **Audience Level** | Primary, Secondary, Undergrad, Master, Professional, General Public |
-| **Style** | Academic, Natural, Debate, Socratic |
-| **Content Scope** | Entire course, Specific chapters, Key themes |
-
-## Skill File Structure
-
-```
-booklm-orchestrator/
-├── SKILL.md                    # This file
-├── README.md                   # User overview
-├── SPECIFICATION.md            # Feature spec
-├── DOCUMENTATION.md            # Technical details
-│
-├── src/
-│   ├── analyzer.md             # Logic: analyze & extract
-│   ├── segmenter.md            # Logic: calculate segments
-│   ├── generator.md            # Logic: generate instructions
-│   ├── output.md               # Logic: create DOCX/TXT
-│   └── questionnaire.md        # Logic: interactive questions
-│
-├── templates/                  # Format templates
-│   ├── instruction-podcast.md
-│   ├── instruction-slides.md
-│   ├── instruction-guides.md
-│   ├── instruction-flashcards.md
-│   └── instruction-video.md
-│
-├── guides/                     # User documentation
-│   ├── GETTING_STARTED.md
-│   ├── BEST_PRACTICES.md
-│   └── TROUBLESHOOTING.md
-│
-├── examples/                   # Example inputs & outputs
-└── .claude/
-    ├── SETUP.md               # Private (gitignored)
-    └── CLAUDE.md              # Development context
-```
-
-## How to Use This Skill
-
-### As User
-1. Type `/booklm-orchestrator`
-2. Answer questionnaire (course + preferences)
-3. Wait for analysis and generation
-4. Download DOCX/TXT output
-5. Copy instruction blocks into BookLM
-6. BookLM generates your content
-
-### As Developer
-1. Read SPECIFICATION.md for requirements
-2. Review src/ files for execution logic
-3. Check templates/ for format specifications
-4. Run with example-input-course.md for testing
-
-See: `.claude/CLAUDE.md` for development setup
-
-## Example Scenarios
-
-### Scenario 1: Student Creating Revision Podcasts
-- **Input**: 120-page Master's course on Public Administration
-- **Requests**: 4 × 35-min podcasts, conversational style, Master level
-- **Output**: 4 instruction blocks, each ready for BookLM
-- **Result**: 4 high-quality podcasts for commute revision
-
-### Scenario 2: Teacher Building Multi-Format Content
-- **Input**: 80-page undergraduate course on Project Management
-- **Requests**: 3 podcasts (25 min) + 15 slides + 12 study guides, undergraduate level
-- **Output**: 30 instruction blocks (multiple formats)
-- **Result**: Complete educational content suite in one session
-
-### Scenario 3: Professional Training
-- **Input**: Company onboarding documentation (60 pages)
-- **Requests**: 1 × 45-min podcast + slides, professional audience
-- **Output**: Podcast + slide instructions
-- **Result**: Training material ready for internal platform
-
-## What Skill Does / Doesn't Do
-
-### ✅ Does
-- Analyze complete courses (structure, concepts, dependencies)
-- Calculate optimal segmentation for any format
-- Generate BookLM-optimized instruction blocks
-- Handle multi-format outputs simultaneously
-- Provide pedagogical reasoning for segmentation
-- Output professional DOCX/TXT documents
-
-### ❌ Doesn't
-- Generate actual audio/video content (BookLM does that)
-- Modify original course material
-- Create new content from scratch
-- Validate factual accuracy
-- Integrate directly with BookLM API (yet)
-
-## Development Status
-
-### Phase 1 (MVP) — COMPLETE
-- [x] Project structure & documentation
-- [x] Analyzer (course parsing, concept extraction, dependency mapping)
-- [x] Segmenter (optimal segment calculation)
-- [x] Generator (instruction blocks for all 5 formats)
-- [x] Output (TXT copyable format)
-- [x] Language detection + multilingual questionnaire
-- [x] Format-specific quantification (exact numbers)
-- [x] TTS audio optimization rules
-- [x] GitHub repository + security (.gitignore)
-- [x] Contributor guidelines (CONTRIBUTING.md)
-- [x] LLM Council analysis + recommendations
-- [ ] Real-world testing with BookLM (scheduled: June 21-22)
-
-### Phase 2 (Expansion) — September 2026
-- [ ] Concept dependency visualization
-- [ ] Advanced interactive questionnaire
-- [ ] Format-specific optimizations
-
-### Phase 3 (Integration) — October 2026
-- [ ] BookLM API integration (if available)
-- [ ] Usage analytics
-
-### Phase 4 (Public) — November 2026
-- [ ] Official registry listing
-- [ ] Multilingual documentation
-- [ ] Community feedback integration
-
----
-
-**Last Updated**: June 17, 2026  
-**Status**: Phase 1 MVP COMPLETE — Ready for validation (Phase 1 testing: June 21-22)  
-**Version**: 0.2.0 (TTS optimizations, Council analysis, streamlined output)  
-**Next**: Real-world BookLM testing → Phase 2 decision  
-**Questions?** See [GETTING_STARTED.md](./guides/GETTING_STARTED.md) or [TROUBLESHOOTING.md](./guides/TROUBLESHOOTING.md)
+Yoann CRAMATTE  
+Grand Belfort — Pôle Relations Usagers (DEE-GDU)  
+Email: ycramatte@gmail.com
