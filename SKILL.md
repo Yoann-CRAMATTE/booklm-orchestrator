@@ -5,24 +5,36 @@
 ```yaml
 name: booklm-orchestrator
 title: BookLM-Orchestrator
-version: 0.1.0
-description: Claude Code skill that analyzes complete courses, intelligently segments them, and generates optimized instructions for BookLM (podcasts, slides, study guides, flashcards, videos). Full interactive workflow.
+version: 0.2.0
+description: Claude Code skill that analyzes complete courses, intelligently segments them, and generates optimized instructions for BookLM (podcasts, slides, study guides, flashcards, videos). Full interactive workflow with language detection, format-specific quantification, and TTS audio optimization.
 author: Yoann CRAMATTE
-organization: Grand Belfort DEE-GDU
+organization: Grand Belfort — Pôle Relations Usagers (DEE-GDU)
 license: MIT
-repository: https://github.com/ycramatte/booklm-orchestrator
-homepage: https://github.com/ycramatte/booklm-orchestrator
+repository: https://github.com/Yoann-CRAMATTE/booklm-orchestrator
+homepage: https://github.com/Yoann-CRAMATTE/booklm-orchestrator
+issues_url: https://github.com/Yoann-CRAMATTE/booklm-orchestrator/issues
+categories:
+  - education
+  - content-generation
+  - course-analysis
+  - booklm
+pricing: free
 keywords:
   - booklm
   - education
   - course-segmentation
   - podcast-generation
   - learning-paths
+  - course-analysis
   - artificial-intelligence
+  - tts-optimization
 languages:
   - fr
   - en
-status: alpha
+  - ru
+  - zh
+  - es
+status: beta
 ```
 
 ## Overview
@@ -353,13 +365,19 @@ See: `.claude/CLAUDE.md` for development setup
 
 ## Development Status
 
-### Phase 1 (MVP) — Current
+### Phase 1 (MVP) — COMPLETE
 - [x] Project structure & documentation
-- [ ] Analyzer (course parsing, concept extraction, dependency mapping)
-- [ ] Segmenter (optimal segment calculation)
-- [ ] Generator (instruction blocks for all 5 formats)
-- [ ] Output (DOCX/TXT generation)
-- [ ] Testing with real courses
+- [x] Analyzer (course parsing, concept extraction, dependency mapping)
+- [x] Segmenter (optimal segment calculation)
+- [x] Generator (instruction blocks for all 5 formats)
+- [x] Output (TXT copyable format)
+- [x] Language detection + multilingual questionnaire
+- [x] Format-specific quantification (exact numbers)
+- [x] TTS audio optimization rules
+- [x] GitHub repository + security (.gitignore)
+- [x] Contributor guidelines (CONTRIBUTING.md)
+- [x] LLM Council analysis + recommendations
+- [ ] Real-world testing with BookLM (scheduled: June 21-22)
 
 ### Phase 2 (Expansion) — September 2026
 - [ ] Concept dependency visualization
@@ -377,6 +395,8 @@ See: `.claude/CLAUDE.md` for development setup
 
 ---
 
-**Last Updated**: June 2026  
-**Status**: Phase 1 Development (MVP in progress)  
+**Last Updated**: June 17, 2026  
+**Status**: Phase 1 MVP COMPLETE — Ready for validation (Phase 1 testing: June 21-22)  
+**Version**: 0.2.0 (TTS optimizations, Council analysis, streamlined output)  
+**Next**: Real-world BookLM testing → Phase 2 decision  
 **Questions?** See [GETTING_STARTED.md](./guides/GETTING_STARTED.md) or [TROUBLESHOOTING.md](./guides/TROUBLESHOOTING.md)
