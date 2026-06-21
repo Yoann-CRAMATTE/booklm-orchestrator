@@ -1,8 +1,4 @@
-# BookLM-Orchestrator Skill Declaration
-
-## Metadata
-
-```yaml
+---
 name: booklm-orchestrator
 title: BookLM-Orchestrator
 version: 0.2.0
@@ -35,7 +31,7 @@ languages:
   - zh
   - es
 status: beta
-```
+---
 
 ## Overview
 
